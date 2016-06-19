@@ -19,5 +19,7 @@ Vagrant.configure("2") do |config|
   config.vm.provision "shell", inline: <<-SHELL
      sudo apt-get install php5-mysql
      mysql -h 127.0.0.1 -u root -psecret < /vagrant/sql/schema.sql
+     sed -i 's/APACHE_RUN_USER=www-data/APACHE_RUN_USER=vagrant/' /etc/apache2/envvars
+     sed -i 's/APACHE_RUN_GROUP=www-data/APACHE_RUN_GROUP=vagrant/' /etc/apache2/envvars
   SHELL
 end
