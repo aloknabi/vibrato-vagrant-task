@@ -1,7 +1,6 @@
 <?php
-echo 'script started';
 
-$servername = "localhost";
+$servername = "127.0.0.1";
 $username = "app_usr";
 $password = "password";
 $dbname = "demodb";
@@ -13,18 +12,14 @@ if (!$conn) {
     die("Connection failed: " . mysqli_connect_error());
 }
 
-/*$sql = "SELECT id, firstname, lastname FROM MyGuests";
+$sql = "UPDATE visitor SET count = count + 1";  
 $result = mysqli_query($conn, $sql);
 
-if (mysqli_num_rows($result) > 0) {
-    // output data of each row
-    while($row = mysqli_fetch_assoc($result)) {
-        echo "id: " . $row["id"]. " - Name: " . $row["firstname"]. " " . $row["lastname"]. "<br>";
-    }
-} else {
-    echo "0 results";
-}
-*/
+$sql = "SELECT count FROM visitor";
+$result = mysqli_query($conn, $sql);
+
+echo $result->fetch_row()[0];
+
 mysqli_close($conn);
 ?>
 

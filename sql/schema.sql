@@ -2,9 +2,11 @@ CREATE DATABASE demodb;
 
 use demodb;
 
-CREATE TABLE vistor(
+CREATE TABLE visitor(
 count int not null
 );
+
+INSERT INTO visitor (count) VALUES (0);
 
 CREATE USER 'app_usr'@'localhost' IDENTIFIED BY 'password';
 
