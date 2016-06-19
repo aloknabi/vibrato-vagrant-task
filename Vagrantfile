@@ -12,6 +12,7 @@ Vagrant.configure("2") do |config|
     chef.add_recipe "apache2"
     chef.add_recipe "php"
     chef.add_recipe "database"
+    chef.add_recipe "apache2::mod_php5"
     chef.json = { 
       :apache => { :default_site_enabled => true},
       :php => { :configure_options => [
@@ -27,5 +28,6 @@ Vagrant.configure("2") do |config|
      mysql -h 127.0.0.1 -u root -psecret < /vagrant/sql/schema.sql
      sed -i 's/APACHE_RUN_USER=www-data/APACHE_RUN_USER=vagrant/' /etc/apache2/envvars
      sed -i 's/APACHE_RUN_GROUP=www-data/APACHE_RUN_GROUP=vagrant/' /etc/apache2/envvars
+     sudo service apache2 restart
   SHELL
 end
