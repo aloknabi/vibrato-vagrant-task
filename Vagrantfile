@@ -18,5 +18,6 @@ Vagrant.configure("2") do |config|
   end
   config.vm.provision "shell", inline: <<-SHELL
      sudo apt-get install php5-mysql
+     mysql -h 127.0.0.1 -u root -psecret < /vagrant/sql/schema.sql
   SHELL
 end
