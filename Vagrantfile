@@ -12,14 +12,14 @@ Vagrant.configure("2") do |config|
     chef.add_recipe "apache2"
     chef.add_recipe "php"
     chef.add_recipe "database"
-    chef.json = { :apache => {:default_site_enabled => true}}
-    chef.json = { :php => {
-      :configure_options => [
-        "-with-mysqli",
+    chef.json = { 
+      :apache => { :default_site_enabled => true},
+      :php => { :configure_options => [
+        "--with-mysqli",
         "--with-pdo-mysql"
         ]
-        }
       }
+    }
   end
   # Additional provisioning with shell
   config.vm.provision "shell", inline: <<-SHELL
