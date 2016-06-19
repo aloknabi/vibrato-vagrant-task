@@ -12,9 +12,11 @@ if (!$conn) {
     die("Connection failed: " . mysqli_connect_error());
 }
 
+// update visitor count
 $sql = "UPDATE visitor SET count = count + 1";  
 $result = mysqli_query($conn, $sql);
 
+// get and display updated count
 $sql = "SELECT count FROM visitor";
 $result = mysqli_query($conn, $sql);
 

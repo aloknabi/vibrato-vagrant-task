@@ -1,8 +1,13 @@
 Vagrant.configure("2") do |config|
 
   config.vm.box = "ubuntu/trusty64"
+  # Port fowarding for apache
   config.vm.network :forwarded_port, guest: 80, host: 8080
+  # Port forwarding for mysql
+  config.vm.network :forwarded_port, guest: 3306, host: 3306
+  # Mapping the php folder to the apache root
   config.vm.synced_folder "php/", "/var/www/html"
+  # Provisioning with chef cookbooks
   config.vm.provision :chef_solo do |chef|
     chef.add_recipe "apache2"
     chef.add_recipe "php"
@@ -16,6 +21,7 @@ Vagrant.configure("2") do |config|
         }
       }
   end
+  # Additional provisioning with shell
   config.vm.provision "shell", inline: <<-SHELL
      sudo apt-get install php5-mysql
      mysql -h 127.0.0.1 -u root -psecret < /vagrant/sql/schema.sql
