@@ -20,7 +20,7 @@ function redisConnect(){
 	$client = new Redis();
 	$client->connect('172.16.111.43');
 	return $client;
-}
+} 
 
 
 function getTotal($id){
