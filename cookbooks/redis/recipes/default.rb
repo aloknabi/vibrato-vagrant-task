@@ -11,3 +11,12 @@ end
 package 'redis-tools' do
 	action :install
 end
+
+cookbook_file '/etc/redis/redis.conf' do
+	source 'redis.conf'
+	action :create
+end
+
+service 'redis-server' do
+	action :restart
+end
