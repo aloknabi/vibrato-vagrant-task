@@ -17,6 +17,7 @@ Vagrant.configure("2") do |config|
       chef.add_recipe "apache2"
       chef.add_recipe "php"
       chef.add_recipe "php::module_mysql"
+      chef.add_recipe "php::module_redis"
       chef.add_recipe "apache2::mod_php5"
       chef.json = { 
         :apache => { 
