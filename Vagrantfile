@@ -37,6 +37,11 @@ Vagrant.configure("2") do |config|
       chef.add_recipe "database"
     end
 
+    db.vm.provision "shell", inline: <<-SHELL
+      if ! mysql -h 127.0.0.1 -u root -psecret 'demodb'; then
+        mysql -h 127.0.0.1 -u root -psecret < /vagrant/sql/schema.sql
+      fi
+    SHELL
   end
 
   config.vm.define "cache" do |db|
