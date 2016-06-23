@@ -1,47 +1,51 @@
 <?php
 
-$servername = "172.16.111.42";
-$username = "app_usr";
-$password = "password";
-$dbname = "demodb";
+function dbConnect(){
+	$servername = "172.16.111.42";
+	$username = "app_usr";
+	$password = "password";
+	$dbname = "demodb";
 
-/*
-// return the list of voting options, id and description
-function getOptions(){
-	// construct query to get all options
-	$query = 'SELECT * FROM voteoptions;';
-	// hash query
-	$hash = hash('md5', $query);
-	// search redis for hash
+	$conn = mysqli_connect($servername, $username, $password, $dbname);
 
-	// return result
-	return 'result list';
+	// Check connection
+	if (!$conn) {
+	    die("Connection failed: " . mysqli_connect_error());
+	}
+
+	return $conn;
 }
 
-//getOptions();
-
-// cast a vote
-function castVote($id){
-	//insert vote in to database
-	$query = 'INSERT INTO vote (voteid) VALUES ('. $id .');';
-	$hash = hash('md5', $query);
-	return 'vote casted';
+function redisConnect(){
+	$client = new Redis();
+	$client->connect('172.16.111.43');
+	return $client;
 }
+
 
 function getTotal($id){
+
+	$conn = dbConnect();
+	$redis = redisConnect();
+	
 	// construct query
-	$query = "SELECT count(*) FROM vote where id =" . $id .";";
+	$query = 'SELECT count(*) FROM vote where voteid = ' . $id;
 
 	// hash query string
 	$hash = hash('md5',$query);
-	// check if cached in redis
 
-		// if not cached
-		// get from db, cache in redis
+	// return value from cache if exists
+	if($redis->exists($hash)){
+		return $redis->get($hash);
+	} else {
+		// get value from db
+		$result = mysqli_query($conn, $query);
+		$total = $result->fetch_row()[0];
+		// save value in cache for 5 minutes
+		$redis->setex($hash, 300, $total);
+		return $total;
+	}
 
-		// else
-		// get from redis
-	return 'total result';
 }
-*/
+
 ?>
